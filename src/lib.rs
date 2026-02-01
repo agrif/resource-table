@@ -1,24 +1,10 @@
 #![no_std]
 
+mod util;
+
 pub const RSC_NOTIFY_ID_ANY: u32 = 0xffffffff;
 pub const RPROC_MAX_NAME_LEN: usize = 32;
 pub const FW_RSC_ADDR_ANY: u32 = 0xffffffff;
-
-const fn str_to_array<const N: usize>(s: &str) -> [u8; N] {
-    let bytes = s.as_bytes();
-    if bytes.len() > N {
-        panic!("cannot fit string into byte array");
-    }
-
-    let mut data = [0; N];
-    let mut i = 0;
-    while i < bytes.len() && bytes[i] > 0 {
-        data[i] = bytes[i];
-        i += 1;
-    }
-
-    data
-}
 
 #[repr(C)]
 #[derive(Debug)]
@@ -90,7 +76,7 @@ impl Carveout {
             len: len as u32,
             flags,
             reserved: 0,
-            name: str_to_array(name),
+            name: util::str_to_array(name).expect("name too long"),
         }
     }
 }
