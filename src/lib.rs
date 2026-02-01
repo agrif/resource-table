@@ -6,9 +6,7 @@
 
 mod util;
 
-pub const RSC_NOTIFY_ID_ANY: u32 = 0xffffffff;
-pub const RPROC_MAX_NAME_LEN: usize = 32;
-pub const FW_RSC_ADDR_ANY: u32 = 0xffffffff;
+pub mod constants;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -61,7 +59,7 @@ pub struct Carveout {
     len: u32,
     flags: u32,
     reserved: u32,
-    name: [u8; RPROC_MAX_NAME_LEN],
+    name: [u8; constants::RPROC_MAX_NAME_LEN],
 }
 
 impl ResourceType for Carveout {
@@ -74,7 +72,7 @@ impl Carveout {
             da: if let Some(addr) = da {
                 addr
             } else {
-                FW_RSC_ADDR_ANY
+                constants::FW_RSC_ADDR_ANY
             },
             pa: 0,
             len: len as u32,
