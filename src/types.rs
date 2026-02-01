@@ -68,7 +68,7 @@ unsafe impl Sync for DevAddr {}
 
 impl core::fmt::Debug for DevAddr {
     fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        unsafe { write!(f, "{:x?}", self.raw) }
+        unsafe { write!(f, "{:#x?}", self.raw) }
     }
 }
 
