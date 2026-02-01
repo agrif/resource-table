@@ -13,4 +13,8 @@ license = "MIT"
 keywords = ["rproc", "remoteproc", "resource-table"]
 categories = ["data-structures", "embedded", "no-std", "no-std::no-alloc"]
 
+[package.metadata.docs.rs]
+# use a 32-bit target for docs, and might as well be embedded
+default-target = "thumbv6m-none-eabi"
+
 [dependencies]

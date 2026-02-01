@@ -21,12 +21,15 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          # use a 32-bit target to build docs
+          targets: thumbv6m-none-eabi
 
-      - run: cargo doc
+      - run: cargo doc --target thumbv6m-none-eabi
 
       - run: |
           mkdir docs
-          mv target/doc/* docs/
+          mv target/thumbv6m-none-eabi/doc/* docs/
 
       - run: |
           echo '
