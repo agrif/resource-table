@@ -1,5 +1,9 @@
 #![no_std]
 
+// useful references:
+// https://github.com/torvalds/linux/blob/master/include/linux/remoteproc.h
+// https://github.com/OpenAMP/open-amp/blob/main/lib/include/openamp/remoteproc.h
+
 mod util;
 
 pub const RSC_NOTIFY_ID_ANY: u32 = 0xffffffff;
