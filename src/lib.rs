@@ -42,8 +42,20 @@ impl Carveout {
     }
 }
 
-crate::resource_table! {
-    /// Documentation comment.
-    pub static CARVEOUT: Carveout = Carveout::new(None, 0x8000, 0, "carveout");
-    pub static CARVEOUT2: Carveout = Carveout::new(None, 0x4000, 1, "haha");
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    resource_table! {
+        /// Documentation comment.
+        pub static CARVEOUT: Carveout =
+            Carveout::new(None, 0x8000, 0, "carveout");
+        static CARVEOUT2: Carveout =
+            Carveout::new(None, 0x4000, 1, "outcarve");
+    }
+
+    #[test]
+    fn test_name() {
+        assert!(CARVEOUT.name == util::str_to_array("carveout").unwrap());
+    }
 }
