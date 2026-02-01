@@ -9,8 +9,7 @@ mod r#macro;
 pub mod types;
 mod util;
 
-#[doc(inline)]
-pub use types::DevAddr;
+pub use types::{DevAddr, DevBuf};
 
 mod carveout;
 pub use carveout::Carveout;
@@ -22,9 +21,9 @@ mod test {
     resource_table! {
         /// Documentation comment.
         pub static CARVEOUT: Carveout =
-            Carveout::new(None, 0x8000, 0, "carveout");
+            Carveout::new_dynamic(0x8000, 0, "carveout");
         static CARVEOUT2: Carveout =
-            Carveout::new(None, 0x4000, 1, "outcarve");
+            Carveout::new_dynamic(0x4000, 1, "outcarve");
     }
 
     #[test]

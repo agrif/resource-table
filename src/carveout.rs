@@ -1,4 +1,4 @@
-use crate::types::DevAddr;
+use crate::types::{DevAddr, DevBuf};
 use crate::{constants, types, util};
 
 #[repr(C)]
@@ -17,15 +17,22 @@ impl types::ResourceType for Carveout {
 }
 
 impl Carveout {
-    pub const fn new(da: Option<DevAddr>, len: usize, flags: u32, name: &str) -> Self {
+    pub const fn new_dynamic(len: usize, flags: u32, name: &str) -> Self {
         Self {
-            da: if let Some(addr) = da {
-                addr
-            } else {
-                DevAddr::from_u32(constants::FW_RSC_ADDR_ANY)
-            },
+            da: DevAddr::from_u32(constants::FW_RSC_ADDR_ANY),
             pa: 0,
             len: len as u32,
+            flags,
+            reserved: 0,
+            name: util::str_to_array(name).expect("name too long"),
+        }
+    }
+
+    pub const fn new_fixed(buf: DevBuf, flags: u32, name: &str) -> Self {
+        Self {
+            da: buf.addr,
+            pa: 0,
+            len: buf.len as u32,
             flags,
             reserved: 0,
             name: util::str_to_array(name).expect("name too long"),
