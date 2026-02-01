@@ -166,3 +166,32 @@ impl DevArea {
         }
     }
 }
+
+/// Resource entry wrapper.
+///
+/// Resources created by the [resource_table!](crate::resource_table!)
+/// macro are wrapped in this struct, and it dereferences to the
+/// original type. This is an implementation detail to prevent Rust
+/// from aggressively optimizing away memory reads.
+pub struct Handle<T> {
+    inner: *mut T,
+}
+
+unsafe impl<T> Sync for Handle<T> where T: Sync {}
+
+impl<T> Handle<T> {
+    // used by the macro, not a public API
+    #[doc(hidden)]
+    pub const fn new(inner: *mut T) -> Self {
+        Self { inner }
+    }
+}
+
+impl<T> core::ops::Deref for Handle<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        // safety: we hold the *mut T, and never hand it out mutably
+        unsafe { self.inner.as_ref().unwrap() }
+    }
+}

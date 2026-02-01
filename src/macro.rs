@@ -17,7 +17,7 @@ macro_rules! resource_table {
             #[unsafe(link_section = ".resource_table")]
             #[unsafe(export_name = "_RESOURCE_TABLE")]
             #[allow(dead_code)]
-            pub static _RESOURCE_TABLE: _ResourceTable = _ResourceTable {
+            pub static mut _RESOURCE_TABLE: _ResourceTable = _ResourceTable {
                 _resource_table_header: $crate::types::Header::new([
                     $(core::mem::offset_of!(_ResourceTable, $i) as u32,)*
                 ]),
@@ -38,7 +38,11 @@ macro_rules! resource_table {
         $(
             #[allow(dead_code)]
             $(#[$attr])*
-            $v static $i: &$t = &_resource_table::_RESOURCE_TABLE.$i.data;
+            $v static $i: $crate::types::Handle<$t> = unsafe {
+                $crate::types::Handle::new(
+                    &raw mut _resource_table::_RESOURCE_TABLE.$i.data,
+                )
+            };
         )*
     };
 }
