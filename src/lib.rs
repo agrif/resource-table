@@ -9,6 +9,9 @@ mod r#macro;
 pub mod types;
 mod util;
 
+#[doc(inline)]
+pub use types::DevAddr;
+
 mod carveout;
 pub use carveout::Carveout;
 

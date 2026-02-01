@@ -1,9 +1,10 @@
+use crate::types::DevAddr;
 use crate::{constants, types, util};
 
 #[repr(C)]
 #[derive(Debug)]
 pub struct Carveout {
-    pub da: u32,
+    pub da: DevAddr,
     pub pa: u32,
     pub len: u32,
     pub flags: u32,
@@ -16,12 +17,12 @@ impl types::ResourceType for Carveout {
 }
 
 impl Carveout {
-    pub const fn new(da: Option<u32>, len: usize, flags: u32, name: &str) -> Self {
+    pub const fn new(da: Option<DevAddr>, len: usize, flags: u32, name: &str) -> Self {
         Self {
             da: if let Some(addr) = da {
                 addr
             } else {
-                constants::FW_RSC_ADDR_ANY
+                DevAddr::from_u32(constants::FW_RSC_ADDR_ANY)
             },
             pa: 0,
             len: len as u32,
