@@ -1,5 +1,9 @@
 # Remote Processor Resource Tables
 
+[![Build and Test](https://github.com/agrif/resource-table/actions/workflows/build-test.yaml/badge.svg)](https://github.com/agrif/resource-table/actions/workflows/build-test.yaml)
+[![crates.io](https://img.shields.io/crates/v/resource-table.svg)](https://crates.io/crates/resource-table)
+[![docs.rs](https://docs.rs/resource-table/badge.svg)](https://docs.rs/resource-table)
+
 Rust crate to create and interface with [remote processor resource
 tables][linux].
 
