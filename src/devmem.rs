@@ -1,4 +1,4 @@
-use crate::types::{DevAddr, DevBuf};
+use crate::types::{DevAddr, DevArea};
 use crate::{constants, types, util};
 
 #[repr(C)]
@@ -17,7 +17,7 @@ impl types::ResourceType for DevMem {
 }
 
 impl DevMem {
-    pub const fn new(buf: DevBuf, pa: u32, flags: u32, name: &str) -> Self {
+    pub const fn new(buf: DevArea, pa: u32, flags: u32, name: &str) -> Self {
         Self {
             da: buf.addr,
             pa,

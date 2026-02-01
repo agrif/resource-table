@@ -1,4 +1,4 @@
-use crate::types::{DevAddr, DevBuf};
+use crate::types::{DevAddr, DevArea};
 use crate::{constants, types, util};
 
 #[repr(C)]
@@ -15,7 +15,7 @@ impl types::ResourceType for Trace {
 }
 
 impl Trace {
-    pub const fn new(buf: DevBuf, name: &str) -> Self {
+    pub const fn new(buf: DevArea, name: &str) -> Self {
         Self {
             da: buf.addr,
             len: buf.len as u32,

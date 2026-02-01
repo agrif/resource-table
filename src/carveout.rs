@@ -1,4 +1,4 @@
-use crate::types::{DevAddr, DevBuf};
+use crate::types::{DevAddr, DevArea};
 use crate::{constants, types, util};
 
 #[repr(C)]
@@ -28,7 +28,7 @@ impl Carveout {
         }
     }
 
-    pub const fn new_fixed(buf: DevBuf, flags: u32, name: &str) -> Self {
+    pub const fn new_fixed(buf: DevArea, flags: u32, name: &str) -> Self {
         Self {
             da: buf.addr,
             pa: 0,

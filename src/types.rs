@@ -108,21 +108,21 @@ impl DevAddr {
     }
 }
 
-/// Device buffer representation.
+/// Device memory area representation.
 ///
-/// This is a [DevAddr] paired with a length, representing a buffer of
-/// bytes in device memory.
+/// This is a [DevAddr] paired with a length, representing an area in
+/// device memory.
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct DevBuf {
+pub struct DevArea {
     /// Base address of buffer.
     pub addr: DevAddr,
     /// Length of buffer, in bytes.
     pub len: usize,
 }
 
-impl DevBuf {
-    /// Create a device buffer from a raw integer and length.
+impl DevArea {
+    /// Create a device area from a raw integer and length.
     pub const fn from_u32_len(raw: u32, len: usize) -> Self {
         Self {
             addr: DevAddr::from_u32(raw),
@@ -130,7 +130,7 @@ impl DevBuf {
         }
     }
 
-    /// Create a device buffer from a slice pointer (only on 32-bit
+    /// Create a device area from a slice pointer (only on 32-bit
     /// platforms).
     #[cfg(target_pointer_width = "32")]
     pub const fn const_from_slice(ptr: *mut [u8]) -> Self {
@@ -140,7 +140,7 @@ impl DevBuf {
         }
     }
 
-    /// Create a device address from a slice pointer.
+    /// Create a device area from a slice pointer.
     pub fn from_slice(ptr: *mut [u8]) -> Self {
         Self {
             addr: DevAddr::from_ptr(ptr as *mut u8),
@@ -148,7 +148,7 @@ impl DevBuf {
         }
     }
 
-    /// Create a device buffer from a base pointer and length (only on
+    /// Create a device area from a base pointer and length (only on
     /// 32-bit platforms).
     #[cfg(target_pointer_width = "32")]
     pub const fn const_from_ptr_len(ptr: *mut u8, len: usize) -> Self {
@@ -158,7 +158,7 @@ impl DevBuf {
         }
     }
 
-    /// Create a device address from a base pointer and length.
+    /// Create a device area from a base pointer and length.
     pub fn from_ptr_len(ptr: *mut u8, len: usize) -> Self {
         Self {
             addr: DevAddr::from_ptr(ptr),

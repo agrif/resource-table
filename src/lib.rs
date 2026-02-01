@@ -9,7 +9,7 @@ mod r#macro;
 pub mod types;
 mod util;
 
-pub use types::{DevAddr, DevBuf};
+pub use types::{DevAddr, DevArea};
 
 mod carveout;
 pub use carveout::Carveout;
