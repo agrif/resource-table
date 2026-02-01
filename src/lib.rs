@@ -14,6 +14,9 @@ pub use types::{DevAddr, DevBuf};
 mod carveout;
 pub use carveout::Carveout;
 
+mod devmem;
+pub use devmem::DevMem;
+
 mod trace;
 pub use trace::Trace;
 
