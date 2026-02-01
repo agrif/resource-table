@@ -14,6 +14,9 @@ pub use types::{DevAddr, DevBuf};
 mod carveout;
 pub use carveout::Carveout;
 
+mod trace;
+pub use trace::Trace;
+
 #[cfg(test)]
 mod test {
     use super::*;
