@@ -7,49 +7,7 @@
 mod util;
 
 pub mod constants;
-
-#[repr(C)]
-#[derive(Debug)]
-pub struct ResourceTableHeader<const N: usize> {
-    pub ver: u32,
-    pub num: u32,
-    pub reserved: [u32; 2],
-    pub offset: [u32; N],
-}
-
-impl<const N: usize> ResourceTableHeader<N> {
-    pub const fn new(offset: [u32; N]) -> Self {
-        Self {
-            ver: 1,
-            num: N as u32,
-            reserved: [0; _],
-            offset,
-        }
-    }
-}
-
-#[repr(C)]
-#[derive(Debug)]
-pub struct Resource<T> {
-    pub type_: u32,
-    pub data: T,
-}
-
-pub trait ResourceType {
-    const RESOURCE_TYPE: u32;
-}
-
-impl<T> Resource<T>
-where
-    T: ResourceType,
-{
-    pub const fn new(data: T) -> Self {
-        Self {
-            type_: T::RESOURCE_TYPE,
-            data,
-        }
-    }
-}
+pub mod types;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -62,7 +20,7 @@ pub struct Carveout {
     name: [u8; constants::RPROC_MAX_NAME_LEN],
 }
 
-impl ResourceType for Carveout {
+impl types::ResourceType for Carveout {
     const RESOURCE_TYPE: u32 = 0;
 }
 
@@ -86,15 +44,15 @@ impl Carveout {
 #[repr(C)]
 #[derive(Debug)]
 pub struct ResourceTable {
-    header: ResourceTableHeader<1>,
-    carveout: Resource<Carveout>,
+    header: types::Header<1>,
+    carveout: types::Resource<Carveout>,
 }
 
 impl ResourceTable {
     pub const fn new() -> Self {
         Self {
-            header: ResourceTableHeader::new([core::mem::offset_of!(Self, carveout) as u32]),
-            carveout: Resource::new(Carveout::new(None, 0x8000, 0, "carveout")),
+            header: types::Header::new([core::mem::offset_of!(Self, carveout) as u32]),
+            carveout: types::Resource::new(Carveout::new(None, 0x8000, 0, "carveout")),
         }
     }
 }
