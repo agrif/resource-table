@@ -1,5 +1,5 @@
 #[repr(C)]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Debug)]
 pub struct Header<const N: usize> {
     pub ver: u32,
     pub num: u32,
@@ -19,7 +19,7 @@ impl<const N: usize> Header<N> {
 }
 
 #[repr(C)]
-#[derive(Clone, Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
+#[derive(Clone, Debug)]
 pub struct Resource<T> {
     pub type_: u32,
     pub data: T,
@@ -66,6 +66,12 @@ pub union DevAddr {
 /// statics.
 unsafe impl Sync for DevAddr {}
 
+impl core::fmt::Debug for DevAddr {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        unsafe { write!(f, "{:x?}", self.raw) }
+    }
+}
+
 impl DevAddr {
     /// Create a device address from a raw integer.
     pub const fn from_u32(raw: u32) -> Self {
@@ -99,12 +105,6 @@ impl DevAddr {
         unsafe {
             self.raw as *mut u8
         }
-    }
-}
-
-impl core::fmt::Debug for DevAddr {
-    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-        unsafe { write!(f, "{:x?}", self.raw) }
     }
 }
 

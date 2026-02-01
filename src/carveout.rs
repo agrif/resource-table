@@ -2,7 +2,7 @@ use crate::types::{DevAddr, DevBuf};
 use crate::{constants, types, util};
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct Carveout {
     pub da: DevAddr,
     pub pa: u32,
