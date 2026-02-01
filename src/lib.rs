@@ -4,6 +4,7 @@
 // https://github.com/torvalds/linux/blob/master/include/linux/remoteproc.h
 // https://github.com/OpenAMP/open-amp/blob/main/lib/include/openamp/remoteproc.h
 
+mod r#macro;
 mod util;
 
 pub mod constants;
@@ -41,23 +42,8 @@ impl Carveout {
     }
 }
 
-#[repr(C)]
-#[derive(Debug)]
-pub struct ResourceTable {
-    header: types::Header<1>,
-    carveout: types::Resource<Carveout>,
+crate::resource_table! {
+    /// Documentation comment.
+    pub static CARVEOUT: Carveout = Carveout::new(None, 0x8000, 0, "carveout");
+    pub static CARVEOUT2: Carveout = Carveout::new(None, 0x4000, 1, "haha");
 }
-
-impl ResourceTable {
-    pub const fn new() -> Self {
-        Self {
-            header: types::Header::new([core::mem::offset_of!(Self, carveout) as u32]),
-            carveout: types::Resource::new(Carveout::new(None, 0x8000, 0, "carveout")),
-        }
-    }
-}
-
-#[unsafe(link_section = ".resource_table")]
-#[unsafe(no_mangle)]
-#[allow(dead_code)]
-pub static _RESOURCE_TABLE: ResourceTable = ResourceTable::new();
