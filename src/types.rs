@@ -86,7 +86,11 @@ impl DevAddr {
 
     /// Create a device address from a pointer.
     pub fn from_ptr(ptr: *mut u8) -> Self {
-        Self { raw: ptr as u32 }
+        #[cfg(target_pointer_width = "32")]
+        return Self { ptr };
+
+        #[cfg(not(target_pointer_width = "32"))]
+        return Self { raw: ptr as u32 };
     }
 
     /// Get the device address as a raw integer.
