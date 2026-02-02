@@ -1,3 +1,5 @@
+use core::ptr::NonNull;
+
 use crate::types::{DevAddr, DevArea};
 use crate::{constants, types, util};
 
@@ -26,5 +28,14 @@ impl DevMem {
             reserved: 0,
             name: util::str_to_array(name).expect("name too long"),
         }
+    }
+
+    pub fn get_ptr(&self) -> Option<NonNull<u8>> {
+        NonNull::new(self.da.as_ptr())
+    }
+
+    pub fn get_slice(&self) -> Option<NonNull<[u8]>> {
+        let ptr = self.get_ptr()?;
+        Some(NonNull::slice_from_raw_parts(ptr, self.len as usize))
     }
 }
